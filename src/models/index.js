@@ -4,44 +4,42 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development'; // Use environment from NODE_ENV or default to 'development'
-console.log(`node_env${env}`);
+const env = process.env.NODE_ENV || 'development'; // Determine environment
+console.log(`Running in ${env} mode`);
 
-// Correct the path to the config file
-const config = require(path.join(__dirname, '../../config/config.js'))[env];
+const db = {}; // Initialize an empty object to hold models
 
-const db = {}; // Create an empty object to store the models
+// Create a new Sequelize instance using environment variables directly
+const sequelize = new Sequelize(
+  process.env.PROD_DB_DATABASE,       
+  process.env.PROD_DB_USERNAME,       
+  process.env.PROD_DB_PASSWORD,       
+  {
+    host: process.env.PROD_DB_HOST,    
+    port: process.env.PROD_DB_PORT,   
+    dialect: process.env.PROD_DB_DIALECT || 'mysql', // Dialect (default to MySQL)
+    logging: false                     // Disable logging (optional)
+  }
+);
 
-let sequelize; // Initialize the sequelize instance
-
-// Check if config has an environment variable for the connection, otherwise use the default values
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: config.host,
-    dialect: config.dialect
-  });
-}
-
-// Read all the files in the current directory (except index.js) and import each model
+// Read all the model files in the current directory (excluding index.js)
 fs.readdirSync(__dirname)
   .filter((file) => {
     return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js' && file.indexOf('.test.js') === -1;
   })
   .forEach((file) => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model; // Add the model to the db object
+    db[model.name] = model; // Add each model to the db object
   });
 
-// Check if any model has an associate function, and if so, call it to establish associations
+// If a model has an associate function, call it to define associations
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
 });
 
-// Export the sequelize instance and Sequelize library
+// Export the Sequelize instance and models
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
@@ -50,9 +48,8 @@ module.exports = db;
 // Synchronize models in the correct order
 (async () => {
   try {
-    // Synchronize the `User` model first, then `Url`
-    await db.User.sync(); // Ensure the `users` table is created first
-    await db.Url.sync();  // Then create the `urls` table
+    await db.User.sync();  // Ensure the 'users' table is created
+    await db.Url.sync();   // Then create the 'urls' table
     console.log("All models were synchronized successfully.");
   } catch (err) {
     console.error("Error synchronizing models:", err);

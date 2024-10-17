@@ -21,6 +21,6 @@ module.exports = {
     database: process.env.PROD_DB_DATABASE,
     host: process.env.PROD_DB_HOST,
     port: process.env.PROD_DB_PORT,
-    dialect: process.env.PROD_DB_DIALECT
+    dialect: process.env.PROD_DB_DIALECT || mysql
   }
 };
