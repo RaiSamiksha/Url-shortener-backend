@@ -14,23 +14,18 @@ function setUser(user) {
     );
 }
 
-function getUser(token) {
-    try {
-        // Replace 'your_jwt_secret' with your actual secret
-        const user = jwt.verify(token, secret);
-        return user;
-    } catch (err) {
-        console.error('Error decoding token:', err);
-        return null;
-    }
-}
-
-module.exports = {
-    getUser,
-};
+// function getUser(token) {
+//     try {
+//         // Replace 'your_jwt_secret' with your actual secret
+//         const user = jwt.verify(token, secret);
+//         return user;
+//     } catch (err) {
+//         console.error('Error decoding token:', err);
+//         return null;
+//     }
+// }
 
 module.exports = {
     setUser,
-    getUser,
-    secret
+    // getUser,
 }

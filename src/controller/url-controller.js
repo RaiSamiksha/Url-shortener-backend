@@ -1,6 +1,7 @@
 const shortID = require("shortid");
 const { Url } = require('../models'); 
-const urlService = require("../services/url-service");
+const { UrlService } = require('../services');
+const urlService = new UrlService();
 
 // Handle Short URL Creation
 async function handleShortURL(req, res) {
@@ -11,9 +12,6 @@ async function handleShortURL(req, res) {
   }
 
   try {
-    // if (!req.user || !req.user._id) {
-    //   return res.status(401).json({ error: "Unauthorized: No user found" });
-    // }
     const newUrl = await urlService.createShortURL(longUrl, req.user.email);
 
     return res.status(201).json({

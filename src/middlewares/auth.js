@@ -1,4 +1,4 @@
-const { getUser } = require("../services/auth");
+// const { getUser } = require("../services/auth");
 const jwt = require("jsonwebtoken");
 
 
