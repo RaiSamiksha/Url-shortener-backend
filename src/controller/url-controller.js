@@ -6,6 +6,7 @@ const urlService = new UrlService();
 // Handle Short URL Creation
 async function handleShortURL(req, res) {
   const { longUrl } = req.body;
+  console.log(longUrl);
 
   if (!longUrl) {
     return res.status(400).json({ error: "URL is required." });

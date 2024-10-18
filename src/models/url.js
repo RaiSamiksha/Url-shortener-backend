@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       visitHistory: {
         type: DataTypes.TEXT,
-        defaultValue: [],
+        allowNull: false,
       },
       createdBy: {
         type: DataTypes.STRING,
