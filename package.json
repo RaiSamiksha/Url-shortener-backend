@@ -2,7 +2,7 @@
   "name": "url-shortner",
   "version": "1.0.0",
   "description": "A URL shortener service that allows users to create short, easy-to-share links from long URLs. This project includes a web interface for generating and managing short URLs, as well as an API for integration with other applications.\r ## Features\r - **Create Short URLs**: Convert long URLs into short, unique links.\r - **Analytics**: Track the number of clicks and other usage statistics for each short URL.",
-  "main": "index.js",
+  "main": "api/index.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -16,13 +16,9 @@
     "shortid": "^2.2.16",
     "winston": "^3.15.0"
   },
-  "engine": {
-    "node": "18.x"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "npm install mysql2",
-    "start": "nodemon index.js"
+    "start": "nodemon api/index.js"
   },
   "author": "",
   "license": "ISC"
