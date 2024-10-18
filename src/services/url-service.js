@@ -22,7 +22,7 @@ class UrlService {
       const newUrl = await Url.create({
         shortId: id,
         redirectUrl: longUrl,
-        visitHistory: [], 
+        visitHistory: "", 
         createdBy: userId,
       });
       return {
