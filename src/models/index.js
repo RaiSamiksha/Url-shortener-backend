@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+require('mysql2');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
@@ -48,6 +49,8 @@ module.exports = db;
 // Synchronize models in the correct order
 (async () => {
   try {
+    await sequelize.authenticate();  // This checks if Sequelize can connect to your database
+    console.log('Database connection has been established successfully.');
     await db.User.sync();  // Ensure the 'users' table is created
     await db.Url.sync();   // Then create the 'urls' table
     console.log("All models were synchronized successfully.");
