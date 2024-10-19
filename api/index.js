@@ -11,7 +11,7 @@ const app = express();
 
 // CORS options
 const corsOptions = {
-  origin: "http://localhost:4200",
+  origin: ["http://localhost:4200", "https://raisamiksha.github.io"],
   credentials: true,
   methods: "GET,POST,PUT,DELETE,OPTIONS",
 };
